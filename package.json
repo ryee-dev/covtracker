@@ -15,7 +15,7 @@
     "react-dom": "^16.13.1",
     "react-leaflet": "^2.7.0",
     "react-scripts": "3.4.3",
-    "homepage": "https://Aifrion.github.io/covtracker"
+    "homepage": "aifrion.github.io/covtracker"
   },
   "scripts": {
     "start": "react-scripts start",
