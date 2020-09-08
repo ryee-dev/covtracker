@@ -14,6 +14,7 @@ import { sortData } from "./util.js";
 import LineGraph from "./LineGraph";
 import "leaflet/dist/leaflet.css";
 import { prettyPrintStat } from "./util";
+
 function App() {
   const [countries, setCountries] = React.useState([]);
 
@@ -37,7 +38,7 @@ function App() {
         setCountryInfo(data);
       });
   }, []);
-  
+
   useEffect(() => {
     // the code here will run once when the component loads and not again after
     // async -> send a request, wait for it, do something with it
