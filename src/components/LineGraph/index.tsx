@@ -81,20 +81,23 @@ function LineGraph({ casesType = 'cases', ...props }) {
 
   return (
     <div className={props.className}>
-      {data?.length > 0 && (
-        <Line
-          data={{
-            datasets: [
-              {
-                data: data,
-                backgroudnColor: 'rgba(204, 16, 52, 0.3)',
-                borderColor: '#cc1034',
-              },
-            ],
-          }}
-          options={options}
-        />
-      )}
+      {
+        // @ts-ignore
+        data?.length > 0 && (
+          <Line
+            data={{
+              datasets: [
+                {
+                  data: data,
+                  backgroudnColor: 'rgba(204, 16, 52, 0.3)',
+                  borderColor: '#cc1034',
+                },
+              ],
+            }}
+            options={options}
+          />
+        )
+      }
     </div>
   );
 }

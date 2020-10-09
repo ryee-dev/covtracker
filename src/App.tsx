@@ -10,41 +10,60 @@ import {
 import InfoBox from './components/InfoBox';
 import Map from './components/Map';
 import Table from './components/Table';
-import { sortData } from './util.js';
+import { sortData } from './util';
 import LineGraph from './components/LineGraph';
 import 'leaflet/dist/leaflet.css';
 import { prettyPrintStat } from './util';
 
+// interface AppProps {
+//   countries: [String];
+//   country: string;
+//   countryInfo: any;
+//   tableData: any;
+// }
+
+type countryInfo = {
+  todayCases: number;
+  cases: number;
+  todayRecovered: number;
+  recovered: number;
+  todayDeaths: number;
+  deaths: number;
+};
+
 function App() {
-  const [countries, setCountries] = React.useState([]);
-  // "https://disease.sh​/v3​/covid-19​/countries"
-  // USEEFFECT = runs a piece of code based on a given condition
-  const [country, setCountry] = React.useState('worldwide');
-  const [countryInfo, setCountryInfo] = React.useState({});
-  const [tableData, setTableData] = React.useState([]);
-  const [mapCenter, setMapCenter] = React.useState({
+  const [countries, setCountries] = React.useState<[]>([]);
+  const [country, setCountry] = React.useState<string>('worldwide');
+  const [countryInfo, setCountryInfo] = React.useState<countryInfo>({
+    todayCases: 0,
+    cases: 0,
+    todayRecovered: 0,
+    recovered: 0,
+    todayDeaths: 0,
+    deaths: 0,
+  });
+  const [tableData, setTableData] = React.useState<{}>([]);
+  const [mapCenter, setMapCenter] = React.useState<{}>({
     lat: 34.80746,
     lng: -40.4796,
   });
-  const [mapZoom, setMapZoom] = React.useState(3);
-  const [mapCountries, setMapCountries] = React.useState([]);
-  const [casesType, setCasesType] = React.useState('cases');
+  const [mapZoom, setMapZoom] = React.useState<number>(3);
+  const [mapCountries, setMapCountries] = React.useState<[]>([]);
+  const [casesType, setCasesType] = React.useState<string>('cases');
+
   useEffect(() => {
     fetch('https://disease.sh/v3/covid-19/all')
       .then((response) => response.json())
       .then((data) => {
         setCountryInfo(data);
       });
-  }, []);
-  useEffect(() => {
-    // the code here will run once when the component loads and not again after
-    // async -> send a request, wait for it, do something with it
 
     const getCountriesData = async () => {
       await fetch('https://disease.sh/v3/covid-19/countries')
         .then((response) => response.json())
         .then((data) => {
           const countries = data.map((country) => ({
+            key: country.countryInfo.iso2,
             name: country.country, // United States, United Kingdom
             value: country.countryInfo.iso2, // UK, USA, FR
           }));
@@ -88,8 +107,10 @@ function App() {
               onChange={onCountryChange}
             >
               <MenuItem value="worldwide">Worldwide</MenuItem>
-              {countries.map((country) => (
-                <MenuItem value={country.value}>{country.name}</MenuItem>
+              {countries.map((country: any) => (
+                <MenuItem key={country.value} value={country.value}>
+                  {country.name}
+                </MenuItem>
               ))}
 
               {/* <MenuItem value="worldwide">Worldwide</MenuItem>
@@ -119,6 +140,7 @@ function App() {
           />
           {/* InfoBox title ="Recoveries" */}
           <InfoBox
+            isRed
             active={casesType === 'recovered'}
             onClick={(e) => setCasesType('recovered')}
             title="Recovered"
@@ -149,12 +171,16 @@ function App() {
 
       {/* Table */}
       {/* Graph */}
-      <Card className="app__right">
+      <Card className="app__bottom">
         <CardContent>
-          <h3>Live Cases By Country</h3>
-          <Table countries={tableData} />
-          <h3 className="app__graphTitle">Worldwide New {casesType}</h3>
-          <LineGraph className="app__graph" casesType={casesType} />
+          <div className="covid-table">
+            <h3>Live Cases By Country</h3>
+            <Table countries={tableData} />
+          </div>
+          <div>
+            <h3 className="app__graphTitle">Worldwide New {casesType}</h3>
+            <LineGraph className="app__graph" casesType={casesType} />
+          </div>
         </CardContent>
       </Card>
     </div>

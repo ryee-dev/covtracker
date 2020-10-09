@@ -1,49 +1,68 @@
 * {
   margin: 0;
 }
-body{
+body {
   background-color: #f5f6fa;
 }
-.app{
+.app {
   display: flex;
+  /*flex-direction: column;*/
   justify-content: space-evenly;
   padding: 20px;
 }
-.app__header{
+.app__header {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
   justify-content: space-between;
   color: red;
 }
-.app__stats{
+.app__stats {
   display: flex;
   justify-content: space-between;
 }
-.app__left{
+.app__left {
   flex: 0.9;
   /* the left div takes 90% of screen */
 }
-.app__right{
+.app__right {
   display: flex;
   flex-direction: column;
 }
 
-.app__right .MuiCardContent-root{
+.app__right .MuiCardContent-root {
+  display: flex;
+  flex-direction: column;
+  /*flex-grow: 1;*/
+  justify-content: space-between;
+}
+
+.MuiCardContent-root {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  /*margin-top: 1rem;*/
+  border-radius: 20px !important;
 }
-.app__graphTitle{
+
+.app__graphTitle {
   margin-top: 20px;
   margin-bottom: 20px;
-  
 }
-.app__graph{
+.app__graph {
   flex-grow: 1;
 }
-@media(max-width: 990px){
-  .app{
+@media (max-width: 990px) {
+  .app {
     flex-direction: column;
   }
+}
+
+.covid-table {
+  max-height: 500px;
+  box-sizing: border-box;
+  overflow: scroll;
+}
+
+.covid-graph {
 }
